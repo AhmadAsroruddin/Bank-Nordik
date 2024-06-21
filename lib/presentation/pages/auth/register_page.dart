@@ -1,9 +1,11 @@
+import 'package:bank_nordik/presentation/bloc/registration_bloc.dart';
 import 'package:bank_nordik/presentation/pages/auth/resgiter_upload_pic.dart';
 import 'package:bank_nordik/presentation/shared/FormRegisterWidget.dart';
 import 'package:bank_nordik/presentation/shared/button.dart';
 import 'package:bank_nordik/presentation/shared/const.dart';
 import 'package:bank_nordik/presentation/shared/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../shared/RegisterHeader.dart';
@@ -45,8 +47,8 @@ class RegisterPage extends StatelessWidget {
                     CustomFilledButton(
                       title: "Continue",
                       onPressed: () async {
-                        // context.read<RegisterCubit>().registerData(
-                        //     fullName.text, email.text, password.text);
+                        context.read<RegistrationCubit>().submitRegisterData(
+                            fullName.text, email.text, password.text);
                         Navigator.of(context)
                             .pushNamed(RegisterUploadPic.routeName);
                       },

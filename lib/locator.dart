@@ -1,6 +1,7 @@
 import 'package:bank_nordik/data/service/router_repos_impl.dart';
 import 'package:bank_nordik/domain/repositories/router_repository.dart';
 import 'package:bank_nordik/domain/usecase/router/router_usecase.dart';
+import 'package:bank_nordik/presentation/bloc/registration_bloc.dart';
 import 'package:bank_nordik/presentation/bloc/router_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -16,4 +17,5 @@ void init() {
 
   //BLOC
   locator.registerLazySingleton(() => RouterCubit(routerUsecase: locator()));
+  locator.registerLazySingleton(() => RegistrationCubit());
 }

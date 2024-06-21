@@ -1,6 +1,7 @@
 import 'package:bank_nordik/data/service/router_repos_impl.dart';
 import 'package:bank_nordik/domain/repositories/router_repository.dart';
 import 'package:bank_nordik/domain/usecase/router/router_usecase.dart';
+import 'package:bank_nordik/presentation/bloc/registration_bloc.dart';
 import 'package:bank_nordik/presentation/bloc/router_bloc.dart';
 
 import 'package:flutter/material.dart';
@@ -39,7 +40,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (_) => di.locator<RouterCubit>())],
+      providers: [
+        BlocProvider(create: (_) => di.locator<RouterCubit>()),
+        BlocProvider(create: (_) => di.locator<RegistrationCubit>())
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
