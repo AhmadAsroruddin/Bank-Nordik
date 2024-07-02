@@ -10,18 +10,10 @@ class RegistrationState extends Equatable {
 class RegistrationInitial extends RegistrationState {}
 
 class RegistrationData extends RegistrationState {
-  final String fullName;
-  final String email;
-  final String password;
-  final String? token;
+  final RegisterModel registerModel;
 
-  const RegistrationData({
-    required this.fullName,
-    required this.email,
-    required this.password,
-    this.token,
-  });
+  const RegistrationData({required this.registerModel});
 
   @override
-  List<Object?> get props => [fullName, email, password, token];
+  List<Object> get props => [registerModel];
 }

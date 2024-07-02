@@ -3,9 +3,11 @@ import 'package:bank_nordik/presentation/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class RegisterHeader extends StatelessWidget {
-  const RegisterHeader({
-    super.key,
-  });
+  const RegisterHeader(
+      {super.key, required this.upperText, required this.lowerText});
+
+  final String upperText;
+  final String lowerText;
 
   @override
   Widget build(BuildContext context) {
@@ -30,12 +32,12 @@ class RegisterHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                "Join Us to Unlock",
+                upperText,
                 style: blackTextStyle.copyWith(
                     fontWeight: bold, fontSize: deviceWidth * 0.05),
               ),
               Text(
-                "Your Growth",
+                lowerText,
                 style: blackTextStyle.copyWith(
                     fontWeight: bold, fontSize: deviceWidth * 0.05),
               )

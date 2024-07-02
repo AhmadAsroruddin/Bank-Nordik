@@ -1,4 +1,5 @@
-import 'package:bank_nordik/presentation/pages/auth/resgiter_upload_pic.dart';
+import 'package:bank_nordik/presentation/pages/auth/register_upload_ktp.dart';
+import 'package:bank_nordik/presentation/pages/auth/register_upload_pic.dart';
 import 'package:flutter/material.dart';
 
 import '../bloc/router_bloc.dart';
@@ -54,10 +55,14 @@ class MyRouterDelegate extends RouterDelegate
         }
         if (settings.name == RegisterUploadPic.routeName) {
           return MaterialPageRoute(
-            builder: (context) => const RegisterUploadPic(),
-            settings: settings,
-          );
+              builder: (context) => const RegisterUploadPic(),
+              settings: settings);
         }
+        if (settings.name == UploadKtp.routeName) {
+          return MaterialPageRoute(
+              builder: (context) => const UploadKtp(), settings: settings);
+        }
+
         return null;
       },
       onPopPage: (route, result) {

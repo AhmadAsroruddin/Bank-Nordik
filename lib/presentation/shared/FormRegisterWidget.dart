@@ -5,10 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 class FormRegisterWidget extends StatelessWidget {
   const FormRegisterWidget(
-      {super.key, required this.controller, required this.name});
+      {super.key,
+      required this.controller,
+      required this.name,
+      this.isPassword = false});
 
   final TextEditingController controller;
   final String name;
+  final bool isPassword;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +29,9 @@ class FormRegisterWidget extends StatelessWidget {
           margin: EdgeInsets.only(bottom: deviceHeight * 0.02),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: .5)),
+              border: Border.all(width: 1)),
           child: TextField(
+            obscureText: isPassword,
             controller: controller,
             decoration: const InputDecoration(border: InputBorder.none),
           ),

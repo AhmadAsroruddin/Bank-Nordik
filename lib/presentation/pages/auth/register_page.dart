@@ -1,5 +1,5 @@
 import 'package:bank_nordik/presentation/bloc/registration_bloc.dart';
-import 'package:bank_nordik/presentation/pages/auth/resgiter_upload_pic.dart';
+import 'package:bank_nordik/presentation/pages/auth/register_upload_pic.dart';
 import 'package:bank_nordik/presentation/shared/FormRegisterWidget.dart';
 import 'package:bank_nordik/presentation/shared/button.dart';
 import 'package:bank_nordik/presentation/shared/const.dart';
@@ -28,7 +28,10 @@ class RegisterPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              const RegisterHeader(),
+              const RegisterHeader(
+                upperText: "Join Us to Unlock",
+                lowerText: "Your Growth",
+              ),
               Container(
                 width: deviceWidth * 0.9,
                 padding: EdgeInsets.all(deviceWidth * 0.05),
@@ -40,7 +43,11 @@ class RegisterPage extends StatelessWidget {
                   children: <Widget>[
                     FormRegisterWidget(controller: fullName, name: "Full Name"),
                     FormRegisterWidget(controller: email, name: "Email"),
-                    FormRegisterWidget(controller: password, name: "Password"),
+                    FormRegisterWidget(
+                      controller: password,
+                      name: "Password",
+                      isPassword: true,
+                    ),
                     SizedBox(
                       height: deviceHeight * 0.02,
                     ),
