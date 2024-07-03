@@ -1,6 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:bank_nordik/presentation/bloc/registration_bloc.dart';
+import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
 import 'package:bank_nordik/presentation/pages/auth/register_upload_ktp.dart';
 import 'package:bank_nordik/presentation/shared/FormRegisterWidget.dart';
 import 'package:bank_nordik/presentation/shared/RegisterHeader.dart';
@@ -27,6 +28,7 @@ class RegisterUploadPic extends StatefulWidget {
 class _RegisterUploadPicState extends State<RegisterUploadPic> {
   TextEditingController pin = TextEditingController();
   XFile? image;
+  String? imagePath;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +65,8 @@ class _RegisterUploadPicState extends State<RegisterUploadPic> {
                               if (pickedImage != null) {
                                 setState(() {
                                   image = pickedImage;
+                                  imagePath =
+                                      'data:image/png;base64,${base64Encode(File(image!.path).readAsBytesSync())}';
                                 });
                               }
                             },
@@ -101,23 +105,39 @@ class _RegisterUploadPicState extends State<RegisterUploadPic> {
                             child: Column(
                               children: <Widget>[
                                 FormRegisterWidget(
+                                  isPin: true,
+                                  isPassword: true,
                                   controller: pin,
                                   name: "Set PIN (6 digit number)",
                                 ),
                                 CustomFilledButton(
                                   title: "Continue",
                                   onPressed: () {
-                                    print(image!.path.toString());
-                                    context
-                                        .read<RegistrationCubit>()
-                                        .submitRegisterDataWithPhoto(
-                                            state.registerModel.name!,
-                                            state.registerModel.email!,
-                                            state.registerModel.password!,
-                                            image!.path.toString(),
-                                            pin.text);
-                                    Navigator.of(context)
-                                        .pushNamed(UploadKtp.routeName);
+                                    if (image == null) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: const Text(
+                                              'you have not upload image yet'),
+                                          duration: const Duration(seconds: 4),
+                                          action: SnackBarAction(
+                                            label: 'Hide',
+                                            onPressed: () {},
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      context
+                                          .read<RegistrationCubit>()
+                                          .submitRegisterDataWithPhoto(
+                                              state.registerModel.name!,
+                                              state.registerModel.email!,
+                                              state.registerModel.password!,
+                                              imagePath!,
+                                              pin.text);
+                                      Navigator.of(context)
+                                          .pushNamed(UploadKtp.routeName);
+                                    }
                                   },
                                 )
                               ],

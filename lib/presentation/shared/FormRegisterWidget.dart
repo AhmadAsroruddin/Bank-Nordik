@@ -8,11 +8,13 @@ class FormRegisterWidget extends StatelessWidget {
       {super.key,
       required this.controller,
       required this.name,
-      this.isPassword = false});
+      this.isPassword = false,
+      this.isPin = false});
 
   final TextEditingController controller;
   final String name;
   final bool isPassword;
+  final bool isPin;
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +30,17 @@ class FormRegisterWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: deviceWidth * 0.02),
           margin: EdgeInsets.only(bottom: deviceHeight * 0.02),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 1)),
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1),
+          ),
           child: TextField(
+            maxLength: isPin ? 6 : 500,
             obscureText: isPassword,
             controller: controller,
-            decoration: const InputDecoration(border: InputBorder.none),
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              counterText: "",
+            ),
           ),
         )
       ],

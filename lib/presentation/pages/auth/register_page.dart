@@ -1,4 +1,4 @@
-import 'package:bank_nordik/presentation/bloc/registration_bloc.dart';
+import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
 import 'package:bank_nordik/presentation/pages/auth/register_upload_pic.dart';
 import 'package:bank_nordik/presentation/shared/FormRegisterWidget.dart';
 import 'package:bank_nordik/presentation/shared/button.dart';

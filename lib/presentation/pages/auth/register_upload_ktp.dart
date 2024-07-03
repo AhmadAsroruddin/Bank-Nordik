@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:bank_nordik/presentation/bloc/registration_bloc.dart';
+import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
 import 'package:bank_nordik/presentation/shared/RegisterHeader.dart';
 import 'package:bank_nordik/presentation/shared/button.dart';
 import 'package:bank_nordik/presentation/shared/const.dart';
@@ -31,7 +31,6 @@ class _UploadKtpState extends State<UploadKtp> {
         child: BlocBuilder<RegistrationCubit, RegistrationState>(
           builder: (context, state) {
             if (state is RegistrationData) {
-              print("this is in ktp $state");
               return Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -56,11 +55,10 @@ class _UploadKtpState extends State<UploadKtp> {
                               final pickedImage = await imagePicker.pickImage(
                                   source: ImageSource.gallery);
                               if (pickedImage != null) {
-                                setState(() async {
-                                  final bytes =
-                                      await File(image!.path).readAsBytes();
-                                  base64String = base64Encode(bytes);
+                                setState(() {
                                   image = pickedImage;
+                                  base64String =
+                                      'data:image/png;base64,${base64Encode(File(image!.path).readAsBytesSync())}';
                                 });
                               }
                             },
@@ -96,7 +94,34 @@ class _UploadKtpState extends State<UploadKtp> {
                           SizedBox(
                             height: deviceHeight * 0.08,
                           ),
-                          const CustomFilledButton(title: "Continue")
+                          CustomFilledButton(
+                            title: "Continue",
+                            onPressed: () {
+                              if (image == null) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: const Text(
+                                        'you have not upload image yet'),
+                                    duration: const Duration(seconds: 4),
+                                    action: SnackBarAction(
+                                      label: 'Hide',
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                context
+                                    .read<RegistrationCubit>()
+                                    .submitRegisterDataFull(
+                                        state.registerModel.name!,
+                                        state.registerModel.email!,
+                                        state.registerModel.password!,
+                                        state.registerModel.profilePicture!,
+                                        base64String!,
+                                        state.registerModel.pin!);
+                              }
+                            },
+                          )
                         ],
                       ),
                     ),
