@@ -1,4 +1,5 @@
 import 'package:bank_nordik/data/datasource/auth_datasource.dart';
+import 'package:bank_nordik/data/model/check_email_model.dart';
 import 'package:bank_nordik/data/model/register_model.dart';
 import 'package:bank_nordik/domain/entities/auth_register.dart';
 import 'package:bank_nordik/domain/repositories/auth_repository.dart';
@@ -18,5 +19,10 @@ class RegisterReposImpl implements AuthRepository {
     } catch (e) {
       return Left(e.toString());
     }
+  }
+
+  @override
+  Future<EmailStatusModel> emailCheck(String email) async {
+    return await authDatasource.emailCheck(email);
   }
 }

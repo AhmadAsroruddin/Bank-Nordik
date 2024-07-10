@@ -1,23 +1,35 @@
-import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
-import 'package:bank_nordik/presentation/pages/auth/register_upload_pic.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:bank_nordik/presentation/shared/FormRegisterWidget.dart';
 import 'package:bank_nordik/presentation/shared/button.dart';
 import 'package:bank_nordik/presentation/shared/const.dart';
 import 'package:bank_nordik/presentation/shared/theme.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 
+import '../../bloc/auth/registration_bloc.dart';
 import '../../shared/RegisterHeader.dart';
+import 'register_upload_pic.dart';
 
-// ignore: must_be_immutable
-class RegisterPage extends StatelessWidget {
-  RegisterPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
   static const routeName = "/registerPage";
 
+  @override
+  _RegisterPageState createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   TextEditingController fullName = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+
+  @override
+  void dispose() {
+    fullName.dispose();
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +63,35 @@ class RegisterPage extends StatelessWidget {
                     SizedBox(
                       height: deviceHeight * 0.02,
                     ),
-                    CustomFilledButton(
-                      title: "Continue",
-                      onPressed: () async {
-                        context.read<RegistrationCubit>().submitRegisterData(
-                            fullName.text, email.text, password.text);
-                        Navigator.of(context)
-                            .pushNamed(RegisterUploadPic.routeName);
+                    BlocConsumer<RegistrationCubit, RegistrationState>(
+                      listener: (context, state) {
+                        if (state is EmailNotValid) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Email already exists'),
+                            ),
+                          );
+                        } else if (state is EmailValid) {
+                          context.read<RegistrationCubit>().submitRegisterData(
+                                fullName.text,
+                                email.text,
+                                password.text,
+                              );
+                          Navigator.of(context)
+                              .pushNamed(RegisterUploadPic.routeName);
+                        }
                       },
-                    )
+                      builder: (context, state) {
+                        return CustomFilledButton(
+                          title: "Continue",
+                          onPressed: () async {
+                            await context
+                                .read<RegistrationCubit>()
+                                .emailCheck(email.text);
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),

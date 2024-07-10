@@ -9,6 +9,10 @@ class RegistrationState extends Equatable {
 
 class RegistrationInitial extends RegistrationState {}
 
+class EmailValid extends RegistrationState {}
+
+class EmailNotValid extends RegistrationState {}
+
 class RegistrationData extends RegistrationState {
   final RegisterModel registerModel;
 

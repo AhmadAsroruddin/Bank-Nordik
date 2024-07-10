@@ -1,5 +1,6 @@
 import 'package:bank_nordik/data/model/register_model.dart';
 import 'package:bank_nordik/domain/entities/auth_register.dart';
+import 'package:bank_nordik/domain/usecase/auth/emailCheck_usecase.dart';
 import 'package:bank_nordik/domain/usecase/auth/register_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -7,9 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'registration_state.dart';
 
 class RegistrationCubit extends Cubit<RegistrationState> {
-  RegistrationCubit(this._registerUsecase) : super(RegistrationInitial());
+  RegistrationCubit(this._registerUsecase, this._emailCheckUseCase)
+      : super(RegistrationInitial());
 
   final RegisterUsecase _registerUsecase;
+  final EmailCheckUseCase _emailCheckUseCase;
 
   void submitRegisterData(String fullName, String email, String password) {
     emit(
@@ -58,5 +61,15 @@ class RegistrationCubit extends Cubit<RegistrationState> {
             ktp: ktp),
       ),
     );
+  }
+
+  Future<void> emailCheck(String email) async {
+    final response = await _emailCheckUseCase.execute(email);
+
+    if (response.isEmailExist) {
+      emit(EmailNotValid());
+    } else {
+      emit(EmailValid());
+    }
   }
 }
