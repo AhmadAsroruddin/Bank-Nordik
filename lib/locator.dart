@@ -6,6 +6,7 @@ import 'package:bank_nordik/domain/repositories/router_repository.dart';
 import 'package:bank_nordik/domain/usecase/auth/emailCheck_usecase.dart';
 import 'package:bank_nordik/domain/usecase/auth/register_usecase.dart';
 import 'package:bank_nordik/domain/usecase/router/router_usecase.dart';
+import 'package:bank_nordik/presentation/bloc/auth/login_bloc.dart';
 import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
 import 'package:bank_nordik/presentation/bloc/router_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -19,6 +20,7 @@ void init() {
   locator
       .registerLazySingleton(() => RegisterUsecase(authRepository: locator()));
   locator.registerSingleton(() => EmailCheckUseCase(authRepository: locator()));
+  locator.registerSingleton(() => LoginSuccess(loginModel: locator()));
 
   //REPOSITORY
   locator.registerLazySingleton<RouterRepository>(() => RouterReposImpl());
@@ -30,7 +32,11 @@ void init() {
 
   //BLOC
   locator.registerLazySingleton(() => RouterCubit(routerUsecase: locator()));
-  locator.registerLazySingleton(() => RegistrationCubit(
+  locator.registerLazySingleton(
+    () => RegistrationCubit(
       RegisterUsecase(authRepository: locator()),
-      EmailCheckUseCase(authRepository: locator())));
+      EmailCheckUseCase(authRepository: locator()),
+    ),
+  );
+  locator.registerSingleton(() => LoginCubit(locator()));
 }

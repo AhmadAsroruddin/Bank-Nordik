@@ -1,17 +1,16 @@
-import 'package:equatable/equatable.dart';
-import 'package:bank_nordik/domain/entities/auth_register.dart';
+import '../../domain/entities/user.dart';
 
-class RegisterModel extends Equatable {
-  final String? name;
+class RegisterModel {
   final String? email;
+  final String? username;
   final String? password;
   final String? pin;
   final String? profilePicture;
   final String? ktp;
 
-  const RegisterModel({
-    this.name,
+  RegisterModel({
     this.email,
+    this.username,
     this.password,
     this.pin,
     this.profilePicture,
@@ -20,8 +19,8 @@ class RegisterModel extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
       'email': email,
+      'username': username,
       'password': password,
       'pin': pin,
       'profile_picture': profilePicture,
@@ -29,45 +28,46 @@ class RegisterModel extends Equatable {
     };
   }
 
-  RegisterModel copyWith({
-    String? name,
-    String? email,
-    String? password,
-    String? pin,
-    String? profilePicture,
-    String? ktp,
-  }) =>
-      RegisterModel(
-        name: name ?? this.name,
-        email: email ?? this.email,
-        password: password ?? this.password,
-        pin: pin ?? this.pin,
-        profilePicture: profilePicture ?? this.profilePicture,
-        ktp: ktp ?? this.ktp,
-      );
-
-  AuthRegister toEntity() {
-    return AuthRegister(
-      name: name,
-      email: email,
-      ktp: ktp,
-      password: password,
-      pin: pin,
-      profilePicture: profilePicture,
-    );
-  }
-
-  factory RegisterModel.fromEntity(AuthRegister authRegister) {
+  factory RegisterModel.fromJson(Map<String, dynamic> json) {
     return RegisterModel(
-      email: authRegister.email,
-      ktp: authRegister.ktp,
-      name: authRegister.name,
-      password: authRegister.password,
-      pin: authRegister.pin,
-      profilePicture: authRegister.profilePicture,
+      email: json['email'],
+      username: json['username'],
+      password: json['password'],
+      pin: json['pin'],
+      profilePicture: json['profile_picture'],
+      ktp: json['ktp'],
     );
   }
 
-  @override
-  List<Object?> get props => [name, email, password, profilePicture, ktp, pin];
+  factory RegisterModel.fromEntity(User entity) {
+    return RegisterModel(
+      email: entity.email,
+      username: entity.username,
+      profilePicture: entity.profilePicture,
+      ktp: entity.ktp,
+      pin: entity.pin,
+      password: entity.password,
+    );
+  }
+
+  User toEntity() {
+    return User(
+        id: 0,
+        name: username!,
+        email: email!,
+        username: email!,
+        emailVerified: false,
+        verified: 0,
+        profilePicture: profilePicture!,
+        ktp: ktp!,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+        balance: 0,
+        cardNumber: '',
+        pin: pin!,
+        token: '',
+        tokenExpiresIn: 0,
+        tokenType: '',
+        password: password!);
+  }
 }

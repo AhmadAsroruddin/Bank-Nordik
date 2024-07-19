@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:bank_nordik/data/model/check_email_model.dart';
+import 'package:bank_nordik/data/model/login_model.dart';
 import 'package:dio/dio.dart';
 
 import '../model/register_model.dart';
@@ -8,6 +9,7 @@ import '../model/register_model.dart';
 abstract class AuthDatasource {
   Future<void> register(RegisterModel registerModel);
   Future<EmailStatusModel> emailCheck(String email);
+  Future<LoginModel> login(String email, String password);
 }
 
 class AuthDatasourceImpl extends AuthDatasource {
@@ -18,7 +20,7 @@ class AuthDatasourceImpl extends AuthDatasource {
   Future<void> register(RegisterModel registerModel) async {
     var data = json.encode(registerModel);
 
-    var response = await dio.request(
+    await dio.request(
       'https://bwabank.my.id/api/register',
       options: Options(
         method: 'POST',
@@ -29,14 +31,6 @@ class AuthDatasourceImpl extends AuthDatasource {
       ),
       data: data,
     );
-
-    if (response.statusCode == 200) {
-      print('Response data: ${json.encode(response.data)}');
-    } else {
-      print('Error: ${response.statusMessage}');
-      print(
-          'Error data: ${json.encode(response.data)}'); // Tambahkan ini untuk melihat detail kesalahan
-    }
   }
 
   @override
@@ -60,5 +54,18 @@ class AuthDatasourceImpl extends AuthDatasource {
     } catch (e) {
       throw Exception('Error: $e');
     }
+  }
+
+  @override
+  Future<LoginModel> login(String email, String password) async {
+    var data = json.encode({"email": email, "password": password});
+
+    var response = await dio.post(
+      'https://bwabank.my.id/api/login',
+      options: Options(headers: headers),
+      data: data,
+    );
+
+    return LoginModel.fromJson(response.data);
   }
 }

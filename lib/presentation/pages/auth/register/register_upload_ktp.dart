@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
+import 'package:bank_nordik/presentation/pages/auth/login/signin_page.dart';
 import 'package:bank_nordik/presentation/shared/RegisterHeader.dart';
 import 'package:bank_nordik/presentation/shared/button.dart';
 import 'package:bank_nordik/presentation/shared/const.dart';
@@ -10,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../shared/theme.dart';
+import '../../../shared/theme.dart';
 
 class UploadKtp extends StatefulWidget {
   const UploadKtp({super.key});
@@ -28,7 +29,16 @@ class _UploadKtpState extends State<UploadKtp> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: BlocBuilder<RegistrationCubit, RegistrationState>(
+        child: BlocConsumer<RegistrationCubit, RegistrationState>(
+          listener: (context, state) {
+            if (state is RegistrationDone) {
+              Navigator.of(context).pushNamed(SignInPage.routeName);
+            }
+
+            if (state is RegistrationFailed) {
+              print(state.error);
+            }
+          },
           builder: (context, state) {
             if (state is RegistrationData) {
               return Center(
@@ -113,7 +123,7 @@ class _UploadKtpState extends State<UploadKtp> {
                                 context
                                     .read<RegistrationCubit>()
                                     .submitRegisterDataFull(
-                                        state.registerModel.name!,
+                                        state.registerModel.username!,
                                         state.registerModel.email!,
                                         state.registerModel.password!,
                                         state.registerModel.profilePicture!,

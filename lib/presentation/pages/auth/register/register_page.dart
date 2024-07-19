@@ -6,8 +6,8 @@ import 'package:bank_nordik/presentation/shared/button.dart';
 import 'package:bank_nordik/presentation/shared/const.dart';
 import 'package:bank_nordik/presentation/shared/theme.dart';
 
-import '../../bloc/auth/registration_bloc.dart';
-import '../../shared/RegisterHeader.dart';
+import '../../../bloc/auth/registration_bloc.dart';
+import '../../../shared/RegisterHeader.dart';
 import 'register_upload_pic.dart';
 
 class RegisterPage extends StatefulWidget {

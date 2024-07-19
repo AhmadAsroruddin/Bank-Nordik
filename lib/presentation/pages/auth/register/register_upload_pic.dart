@@ -2,19 +2,17 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
-import 'package:bank_nordik/presentation/pages/auth/register_upload_ktp.dart';
+import 'package:bank_nordik/presentation/pages/auth/register/register_upload_ktp.dart';
 import 'package:bank_nordik/presentation/shared/FormRegisterWidget.dart';
 import 'package:bank_nordik/presentation/shared/RegisterHeader.dart';
 import 'package:bank_nordik/presentation/shared/button.dart';
 import 'package:bank_nordik/presentation/shared/const.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../shared/theme.dart';
+import '../../../shared/theme.dart';
 
 // ignore: must_be_immutable
 class RegisterUploadPic extends StatefulWidget {
@@ -90,7 +88,7 @@ class _RegisterUploadPicState extends State<RegisterUploadPic> {
                             ),
                           ),
                           Text(
-                            state.registerModel.name!,
+                            state.registerModel.username!,
                             style: GoogleFonts.poppins().copyWith(
                                 fontWeight: medium,
                                 fontSize: deviceWidth * 0.045),
@@ -130,7 +128,7 @@ class _RegisterUploadPicState extends State<RegisterUploadPic> {
                                       context
                                           .read<RegistrationCubit>()
                                           .submitRegisterDataWithPhoto(
-                                              state.registerModel.name!,
+                                              state.registerModel.username!,
                                               state.registerModel.email!,
                                               state.registerModel.password!,
                                               imagePath!,

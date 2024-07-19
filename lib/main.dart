@@ -1,6 +1,7 @@
 import 'package:bank_nordik/data/service/router_repos_impl.dart';
 import 'package:bank_nordik/domain/repositories/router_repository.dart';
 import 'package:bank_nordik/domain/usecase/router/router_usecase.dart';
+import 'package:bank_nordik/presentation/bloc/auth/login_bloc.dart';
 import 'package:bank_nordik/presentation/bloc/auth/registration_bloc.dart';
 import 'package:bank_nordik/presentation/bloc/router_bloc.dart';
 
@@ -42,7 +43,8 @@ class _MyAppState extends State<MyApp> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (_) => di.locator<RouterCubit>()),
-        BlocProvider(create: (_) => di.locator<RegistrationCubit>())
+        BlocProvider(create: (_) => di.locator<RegistrationCubit>()),
+        BlocProvider(create: (_) => di.locator<LoginCubit>())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

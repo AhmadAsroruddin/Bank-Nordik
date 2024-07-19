@@ -9,12 +9,14 @@ class FormRegisterWidget extends StatelessWidget {
       required this.controller,
       required this.name,
       this.isPassword = false,
-      this.isPin = false});
+      this.isPin = false,
+      this.func});
 
   final TextEditingController controller;
   final String name;
   final bool isPassword;
   final bool isPin;
+  final Function(String)? func;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class FormRegisterWidget extends StatelessWidget {
               border: InputBorder.none,
               counterText: "",
             ),
+            onChanged: func,
           ),
         )
       ],
