@@ -40,6 +40,7 @@ class AuthDatasourceImpl extends AuthDatasource {
       var response = await dio.post(
         'https://bwabank.my.id/api/is-email-exist',
         options: Options(
+          method: 'POST',
           headers: headers, // Define your headers here if needed
         ),
         data: data,
@@ -58,14 +59,30 @@ class AuthDatasourceImpl extends AuthDatasource {
 
   @override
   Future<LoginModel> login(String email, String password) async {
-    var data = json.encode({"email": email, "password": password});
+    try {
+      var data = json.encode({"email": email, "password": password});
 
-    var response = await dio.post(
-      'https://bwabank.my.id/api/login',
-      options: Options(headers: headers),
-      data: data,
-    );
+      var response = await dio.post(
+        'https://bwabank.my.id/api/login',
+        options: Options(
+          headers: headers,
+          method: 'POST',
+        ),
+        data: data,
+      );
 
-    return LoginModel.fromJson(response.data);
+      // Pastikan response.data adalah JSON
+      if (response.data is String) {
+        var jsonResponse = jsonDecode(response.data);
+        return LoginModel.fromJson(jsonResponse);
+      } else if (response.data is Map) {
+        return LoginModel.fromJson(response.data);
+      } else {
+        throw Exception('Unexpected response format');
+      }
+    } catch (e) {
+      // Tindakan lanjutan sesuai kebutuhan, misalnya melempar exception ke lapisan lebih atas
+      throw Exception('Failed to login: ${e.toString()}');
+    }
   }
 }

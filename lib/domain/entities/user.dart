@@ -3,7 +3,6 @@ class User {
   final String name;
   final String email;
   final String username;
-  final bool emailVerified;
   final int verified;
   final String profilePicture;
   final String ktp;
@@ -23,7 +22,6 @@ class User {
     required this.name,
     required this.email,
     required this.username,
-    required this.emailVerified,
     required this.verified,
     required this.profilePicture,
     required this.ktp,

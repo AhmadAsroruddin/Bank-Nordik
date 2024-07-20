@@ -43,7 +43,7 @@ class FormRegisterWidget extends StatelessWidget {
               border: InputBorder.none,
               counterText: "",
             ),
-            onChanged: func,
+            onSubmitted: func,
           ),
         )
       ],

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bank_nordik/data/datasource/auth_datasource.dart';
 import 'package:bank_nordik/data/model/check_email_model.dart';
 import 'package:bank_nordik/data/model/login_model.dart';
@@ -5,6 +7,7 @@ import 'package:bank_nordik/data/model/register_model.dart';
 import 'package:bank_nordik/domain/entities/user.dart';
 import 'package:bank_nordik/domain/repositories/auth_repository.dart';
 import 'package:dartz/dartz.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegisterReposImpl implements AuthRepository {
   final AuthDatasource authDatasource;
@@ -35,6 +38,18 @@ class RegisterReposImpl implements AuthRepository {
       return Right(entity);
     } catch (e) {
       return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<LoginModel?> getUserData() async {
+    final pref = await SharedPreferences.getInstance();
+    final data = pref.getString('userData');
+
+    if (data != null) {
+      return LoginModel.fromJson(jsonDecode(data));
+    } else {
+      return null;
     }
   }
 }

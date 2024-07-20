@@ -56,7 +56,6 @@ class RegisterModel {
         name: username!,
         email: email!,
         username: email!,
-        emailVerified: false,
         verified: 0,
         profilePicture: profilePicture!,
         ktp: ktp!,
