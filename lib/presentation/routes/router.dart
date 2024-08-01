@@ -1,6 +1,7 @@
 import 'package:bank_nordik/presentation/pages/auth/login/signin_page.dart';
 import 'package:bank_nordik/presentation/pages/auth/register/register_upload_ktp.dart';
 import 'package:bank_nordik/presentation/pages/auth/register/register_upload_pic.dart';
+import 'package:bank_nordik/presentation/pages/pin/pin_page.dart';
 import 'package:flutter/material.dart';
 
 import '../bloc/router_bloc.dart';
@@ -50,7 +51,7 @@ class MyRouterDelegate extends RouterDelegate
       onGenerateRoute: (settings) {
         if (settings.name == RegisterPage.routeName) {
           return MaterialPageRoute(
-            builder: (context) => RegisterPage(),
+            builder: (context) => const RegisterPage(),
             settings: settings,
           );
         }
@@ -67,6 +68,10 @@ class MyRouterDelegate extends RouterDelegate
         if (settings.name == SignInPage.routeName) {
           return MaterialPageRoute(
               builder: (context) => const SignInPage(), settings: settings);
+        }
+        if (settings.name == PinPage.routeName) {
+          return MaterialPageRoute(
+              builder: (context) => const PinPage(), settings: settings);
         }
 
         return null;
@@ -101,8 +106,8 @@ class MyRouterDelegate extends RouterDelegate
   // BEFORE LOGIN PAGE
   List<Page> get _loggedOutStack => [
         const MaterialPage(
-          key: ValueKey("SigninScreen"),
-          child: SignInPage(),
+          key: ValueKey("PinPage"),
+          child: PinPage(),
         ),
         // const MaterialPage(
         //   key: ValueKey("RegisterUploadPic"),

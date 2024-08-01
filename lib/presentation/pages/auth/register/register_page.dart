@@ -37,73 +37,78 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: lightBackgroundColor,
       body: SafeArea(
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const RegisterHeader(
-                upperText: "Join Us to Unlock",
-                lowerText: "Your Growth",
-              ),
-              Container(
-                width: deviceWidth * 0.9,
-                padding: EdgeInsets.all(deviceWidth * 0.05),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                const RegisterHeader(
+                  upperText: "Join Us to Unlock",
+                  lowerText: "Your Growth",
                 ),
-                child: Column(
-                  children: <Widget>[
-                    FormRegisterWidget(controller: fullName, name: "Full Name"),
-                    FormRegisterWidget(controller: email, name: "Email"),
-                    FormRegisterWidget(
-                      controller: password,
-                      name: "Password",
-                      isPassword: true,
-                    ),
-                    SizedBox(
-                      height: deviceHeight * 0.02,
-                    ),
-                    BlocConsumer<RegistrationCubit, RegistrationState>(
-                      listener: (context, state) {
-                        if (state is EmailNotValid) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Email already exists'),
-                            ),
-                          );
-                        } else if (state is EmailValid) {
-                          context.read<RegistrationCubit>().submitRegisterData(
-                                fullName.text,
-                                email.text,
-                                password.text,
-                              );
-                          Navigator.of(context)
-                              .pushNamed(RegisterUploadPic.routeName);
-                        }
-                      },
-                      builder: (context, state) {
-                        return CustomFilledButton(
-                          title: "Continue",
-                          onPressed: () async {
-                            await context
+                Container(
+                  width: deviceWidth * 0.9,
+                  padding: EdgeInsets.all(deviceWidth * 0.05),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      FormRegisterWidget(
+                          controller: fullName, name: "Full Name"),
+                      FormRegisterWidget(controller: email, name: "Email"),
+                      FormRegisterWidget(
+                        controller: password,
+                        name: "Password",
+                        isPassword: true,
+                      ),
+                      SizedBox(
+                        height: deviceHeight * 0.02,
+                      ),
+                      BlocConsumer<RegistrationCubit, RegistrationState>(
+                        listener: (context, state) {
+                          if (state is EmailNotValid) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Email already exists'),
+                              ),
+                            );
+                          } else if (state is EmailValid) {
+                            context
                                 .read<RegistrationCubit>()
-                                .emailCheck(email.text);
-                          },
-                        );
-                      },
-                    ),
-                  ],
+                                .submitRegisterData(
+                                  fullName.text,
+                                  email.text,
+                                  password.text,
+                                );
+                            Navigator.of(context)
+                                .pushNamed(RegisterUploadPic.routeName);
+                          }
+                        },
+                        builder: (context, state) {
+                          return CustomFilledButton(
+                            title: "Continue",
+                            onPressed: () async {
+                              await context
+                                  .read<RegistrationCubit>()
+                                  .emailCheck(email.text);
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: deviceHeight * 0.05,
-              ),
-              Text(
-                "Sign In",
-                style: GoogleFonts.poppins()
-                    .copyWith(color: greyColor, fontSize: deviceWidth * 0.04),
-              )
-            ],
+                SizedBox(
+                  height: deviceHeight * 0.05,
+                ),
+                Text(
+                  "Sign In",
+                  style: GoogleFonts.poppins()
+                      .copyWith(color: greyColor, fontSize: deviceWidth * 0.04),
+                )
+              ],
+            ),
           ),
         ),
       ),
